@@ -10,7 +10,7 @@
     <nav class="flex-1 px-4 py-6 space-y-2 text-gray-700 text-sm font-medium">
 
         <!-- Dashboard -->
-        <a href="#"
+        <a href="{{ route('dashboard') }}"
             class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-indigo-100 hover:text-indigo-700 transition">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="2">
@@ -36,10 +36,10 @@
                 </svg>
             </button>
             <div id="category-menu" class="ml-8 mt-1 space-y-1 hidden">
-                <a href="#"
+                <a href="{{ route('categories.index') }}"
                     class="block px-3 py-2 rounded-md hover:bg-indigo-100 hover:text-indigo-700 transition">Manage
                     Category</a>
-                <a href="#"
+                <a href="{{ route('categories.create') }}"
                     class="block px-3 py-2 rounded-md hover:bg-indigo-100 hover:text-indigo-700 transition">Add
                     Category</a>
             </div>
