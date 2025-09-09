@@ -67,6 +67,8 @@
                                 <td class="px-4 py-3 text-right space-x-2">
                                     <a href="{{ route('products.edit', $product->id) }}"
                                         class="text-indigo-600 hover:text-indigo-800 font-medium">Edit</a>
+                                    <a href="{{ route('products.show', $product->id) }}"
+                                        class="text-green-600 hover:text-green-800 font-medium">Detail</a>
                                     <form action="{{ route('products.destroy', $product->id) }}" method="POST"
                                         class="inline">
                                         @csrf

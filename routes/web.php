@@ -18,7 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('categories', CategoryController::class);
     Route::resources(resources: ['products'=>ProductController::class]);
-
+    Route::delete('/products/images/{id}', [ProductController::class, 'deleteImage'])->name('products.images.delete');
 
     Route::redirect('settings', 'settings/profile');
     Route::get('settings/profile', Profile::class)->name('settings.profile');

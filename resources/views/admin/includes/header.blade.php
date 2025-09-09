@@ -33,13 +33,18 @@
             <img src="https://i.pravatar.cc/32" alt="Profile" class="w-8 h-8 rounded-full object-cover" />
             <span class="hidden sm:block text-gray-700 font-medium">Admin</span>
         </button>
-        <button aria-label="Logout"
-            class="text-gray-500 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 rounded-md">
+        <button aria-label="Logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+            class="text-gray-500 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 rounded-md transition duration-200">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
             </svg>
         </button>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+            @csrf
+        </form>
+
     </div>
 </header>

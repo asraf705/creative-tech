@@ -24,7 +24,7 @@
 
         <!-- Main content -->
         <main class="flex-1 overflow-y-auto p-6">
-                @yield('content')
+            @yield('content')
         </main>
     </div>
 
@@ -41,7 +41,15 @@
             menu.classList.toggle("hidden");
             btn.querySelector("svg:last-child").classList.toggle("rotate-180");
         }
+
+        document.querySelector('[aria-label="Logout"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm("Are you sure you want to log out?")) {
+                document.getElementById('logout-form').submit();
+            }
+        });
     </script>
+
 </body>
 
 </html>

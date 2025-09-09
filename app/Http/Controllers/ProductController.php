@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -24,7 +25,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories => Category::where('status', 1)->get(),
+        $categories = Category::where('status', 1)->get();
         return view("admin.pages.product.add", compact("categories"));
     }
 
@@ -54,7 +55,7 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $product = Product::find($id);
-        return view('admin.product.edit',[
+        return view('admin.pages.product.edit',[
             'product'=>$product,
             'productImages' => ProductImage::where('product_id',$product->id)->get(),
             'categories' => Category::where('status', 1)->get(),
@@ -81,10 +82,17 @@ class ProductController extends Controller
     }
 
     /**
-     * change Status.
+     * delete image .
      */
-    public function info($id){
-        Product::checkStatus($id);
-        return back()->with('message', 'Product Status Updated Successfully');
+    public function deleteImage($id)
+{
+    $image = ProductImage::findOrFail($id);
+    $imagePath = public_path('uploaded_files/products/' . $image->image);
+    if (File::exists($imagePath)) {
+        File::delete($imagePath);
     }
+    $image->delete();
+
+    return redirect()->back()->with('success', 'Image deleted successfully.');
+}
 }

@@ -6,7 +6,7 @@
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-2xl font-bold text-gray-800">Create New Product</h3>
             <a class="bg-red-600 text-white px-6 py-2 rounded-lg shadow hover:bg-red-700 transition"
-               href="{{ route('products.index') }}">Back</a>
+                href="{{ route('products.index') }}">Back</a>
         </div>
 
         <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
@@ -40,7 +40,8 @@
 
             <!-- Short Description -->
             <div>
-                <label for="short_description" class="block text-sm font-medium text-gray-700 mb-2">Short Description</label>
+                <label for="short_description" class="block text-sm font-medium text-gray-700 mb-2">Short
+                    Description</label>
                 <textarea id="short_description" name="short_description" rows="3"
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
             </div>
@@ -72,12 +73,22 @@
 
             <!-- Other Images -->
             <div>
-                <label for="other_image" class="block text-sm font-medium text-gray-700 mb-2">Other Images (Multiple)</label>
+                <label for="other_image" class="block text-sm font-medium text-gray-700 mb-2">Other Images
+                    (Multiple)</label>
+
+                <!-- Preview Grid -->
+                <div id="otherPreviewContainer"
+                    class="grid grid-cols-2 md:grid-cols-4 gap-4 border-2 border-dashed border-gray-300 rounded-lg p-4 bg-gray-50">
+                    <span id="otherPlaceholder" class="col-span-full text-gray-400 text-sm text-center">No Images</span>
+                </div>
+
+                <!-- File Input -->
                 <input type="file" id="other_image" name="other_image[]" multiple accept="image/*"
-                    class="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
-                    file:rounded-md file:border-0 file:text-sm file:font-semibold
-                    file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100" />
+                    class="mt-3 block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
+        file:rounded-md file:border-0 file:text-sm file:font-semibold
+        file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100" />
             </div>
+
 
             <!-- Video Link -->
             <div>
@@ -117,7 +128,8 @@
                     </select>
                 </div>
                 <div>
-                    <label for="discount_amount" class="block text-sm font-medium text-gray-700 mb-2">Discount Amount</label>
+                    <label for="discount_amount" class="block text-sm font-medium text-gray-700 mb-2">Discount
+                        Amount</label>
                     <input type="number" step="0.01" id="discount_amount" name="discount_amount"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
                 </div>
@@ -130,7 +142,8 @@
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
             </div>
             <div>
-                <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-2">Meta Description</label>
+                <label for="meta_description" class="block text-sm font-medium text-gray-700 mb-2">Meta
+                    Description</label>
                 <textarea id="meta_description" name="meta_description" rows="3"
                     class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
             </div>
@@ -174,4 +187,54 @@
             this.classList.add('hidden');
         });
     </script>
+    <script>
+        const otherImageInput = document.getElementById('other_image');
+        const otherPreviewContainer = document.getElementById('otherPreviewContainer');
+        const otherPlaceholder = document.getElementById('otherPlaceholder');
+
+        otherImageInput.addEventListener('change', function() {
+            otherPreviewContainer.innerHTML = ''; // clear old previews
+            const files = Array.from(this.files);
+
+            if (files.length === 0) {
+                otherPlaceholder.classList.remove('hidden');
+                return;
+            }
+
+            otherPlaceholder.classList.add('hidden');
+
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = "relative group";
+
+                    wrapper.innerHTML = `
+                    <img src="${event.target.result}"
+                        class="w-full h-32 object-cover rounded-lg shadow">
+                    <button type="button"
+                        class="absolute top-1 right-1 bg-red-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition"
+                        onclick="removeOtherImage(${index})">
+                        ✕
+                    </button>
+                `;
+                    otherPreviewContainer.appendChild(wrapper);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        function removeOtherImage(index) {
+            let dt = new DataTransfer();
+            let files = Array.from(otherImageInput.files);
+
+            files.splice(index, 1); // remove selected
+            files.forEach(file => dt.items.add(file));
+            otherImageInput.files = dt.files;
+
+            // Trigger change again to refresh preview
+            otherImageInput.dispatchEvent(new Event('change'));
+        }
+    </script>
+
 @endsection
