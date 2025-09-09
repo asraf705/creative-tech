@@ -62,10 +62,10 @@
                 </svg>
             </button>
             <div id="product-menu" class="ml-8 mt-1 space-y-1 hidden">
-                <a href="#"
+                <a href="{{route('products.index')}}"
                     class="block px-3 py-2 rounded-md hover:bg-indigo-100 hover:text-indigo-700 transition">Manage
                     Product</a>
-                <a href="#"
+                <a href="{{route('products.create')}}"
                     class="block px-3 py-2 rounded-md hover:bg-indigo-100 hover:text-indigo-700 transition">Add
                     Product</a>
             </div>
